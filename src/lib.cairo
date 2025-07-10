@@ -1,33 +1,54 @@
-//! This package is the front gate to the concept of **oracles** in Cairo programs. Oracles allow
-//! Cairo code to invoke external, untrusted, performant logic during program execution, enabling
-//! integration with the outside world in a controlled and auditable manner.
+//! This library provides the core functionality for interacting with **oracles** in Cairo.
+//! Oracles are external, untrusted processes that can be called from Cairo code to fetch data or
+//! perform computations not possible within the VM, like accessing web APIs or local files.
 //!
 //! ## Feature status
 //!
 //! As of the date when this package version has been released, oracle support in Scarb is
 //! **experimental**. It must be enabled with `scarb execute --experimental-oracles` or by setting
-//! the `SCARB_EXPERIMENTAL_ORACLES=1` environment variable. The API and protocol may change in
-//! future releases.
+//! the `SCARB_EXPERIMENTAL_ORACLES=1` environment variable. Both the API and protocol are
+//! experimental and may change in future releases.
 //!
 //! ## What is an oracle?
 //!
-//! An oracle is an external process (could be a binary or a script or web service) that exposes
-//! custom logic or data to a Cairo program. Oracles can perform computations, access files, or
-//! provide any service not natively available in Cairo. They are executed as separate processes and
-//! communicate with the Cairo executor using a defined protocol. By their mere nature, oracle
-//! execution is not included in the execution trace and thus the proof.
+//! An oracle is an external process (like a script, binary, or web service) that exposes custom
+//! logic or data to a Cairo program. You use it to perform tasks the Cairo VM cannot, such as
+//! accessing real-world data or executing complex, non-provable computations.
+//!
+//! **IMPORTANT:** The execution of an oracle occurs **outside** of the Cairo VM. Consequently, its
+//! operations are **not included** in the execution trace and are **not verified by the proof**.
+//! The proof only validates that a call was made to an oracle and that your program correctly
+//! handled the data it received. It provides no guarantee whatsoever that the data itself is
+//! accurate or legitimate.
 //!
 //! ## How are oracles executed?
 //!
-//! The exact details on how oracles are executed are up to the execution runtime. Consult your
-//! execution runtime documentation for details and possibilities.
+//! Oracle execution is managed by the Cairo runtime (e.g., the `scarb execute`). The runtime is
+//! responsible for interpreting the connection URL and facilitating the communication between the
+//! Cairo program and the external process.
+//!
+//! While the specific protocols are runtime-dependent, here are the common schemes:
+//! - `stdio:./path/to/binary`: The runtime executes a local binary and pipes data between your
+//! Cairo program and the process's standard input (stdin) and standard output (stdout).
+//! - `builtin:name`: The runtime may provide pre-compiled, optimized "builtin" oracles for common
+//! tasks. For example, `builtin:fs` may refer to a runtime-provided oracle for filesystem
+//! operations, which is more efficient and secure than invoking a generic script.
+//!
+//! Always consult your specific runtime's documentation for a complete list of supported protocols
+//! and available built-in oracles.
 //!
 //! ## Never trust your oracle!
 //!
-//! If you care about generating execution proofs of your programs, then do not forget to **never
-//! trust your oracle**. Oracle execution is not part of the execution trace and thus is a potential
-//! vector for third-party actors to attack your program. Always validate the results returned by
-//! oracles, and never assume that they are correct without verification.
+//! This is the most important security principle in this library. Because oracle execution is not
+//! proven, you must operate under the assumption that an oracle can be malicious or compromised. An
+//! attacker can intercept or control the oracle to return arbitrary, invalid, or harmful data.
+//!
+//! Your Cairo code is the only line of defense. It is your responsibility to validate and verify
+//! any data returned by an oracle before it is used in any state-changing logic.
+//!
+//! **Always treat oracle responses as untrusted input.** For example, if your program expects a
+//! sorted list of values, it must immediately verify that the list is indeed sorted. Failure to do
+//! so creates a critical security vulnerability.
 
 use core::fmt;
 use core::result::Result as CoreResult;
