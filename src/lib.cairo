@@ -151,3 +151,22 @@ impl DebugError of fmt::Debug<Error> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_result_error_serde() {
+        let mut serialized: Array<felt252> = array![];
+        let original_error: Result<()> = Result::Err(
+            Error { inner: ErrorInner::ErrorMessage("abcdef") },
+        );
+        original_error.serialize(ref serialized);
+        assert_eq!(serialized, array![1, 0, 0, 107075202213222, 6]);
+
+        let mut span = serialized.span();
+        let deserialized = Serde::<Result<()>>::deserialize(ref span).unwrap();
+        assert_eq!(deserialized, original_error);
+    }
+}
