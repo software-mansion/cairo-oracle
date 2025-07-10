@@ -52,6 +52,7 @@
 
 use core::fmt;
 use core::result::Result as CoreResult;
+use starknet::testing::cheatcode;
 
 /// Invokes an external oracle process and returns its result.
 ///
@@ -141,10 +142,3 @@ impl DebugError of fmt::Debug<Error> {
         write!(f, "oracle::Error({:?})", self.message)
     }
 }
-
-/// Private, parallel declaration of `starknet::testing::cheatcode`.
-///
-/// We roll out our own so that oracles are not dependent on the `starknet` package.
-extern fn cheatcode<const selector: felt252>(
-    input: Span<felt252>,
-) -> Span<felt252> implicits() nopanic;
