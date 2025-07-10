@@ -124,21 +124,30 @@ pub type Result<T> = CoreResult<T, Error>;
 /// The internal structure of this type is opaque, but it can be displayed and (de)serialized.
 #[derive(Drop, Clone, PartialEq, Serde)]
 pub struct Error {
-    message: ByteArray,
+    inner: ErrorInner,
+}
+
+#[derive(Drop, Clone, PartialEq, Serde)]
+enum ErrorInner {
+    ErrorMessage: ByteArray,
 }
 
 fn deserialization_error() -> Error {
-    Error { message: "failed to deserialize oracle response" }
+    Error { inner: ErrorInner::ErrorMessage("failed to deserialize oracle response") }
 }
 
 impl DisplayError of fmt::Display<Error> {
     fn fmt(self: @Error, ref f: fmt::Formatter) -> CoreResult<(), fmt::Error> {
-        fmt::Display::fmt(self.message, ref f)
+        match self.inner {
+            ErrorInner::ErrorMessage(message) => fmt::Display::fmt(message, ref f),
+        }
     }
 }
 
 impl DebugError of fmt::Debug<Error> {
     fn fmt(self: @Error, ref f: fmt::Formatter) -> CoreResult<(), fmt::Error> {
-        write!(f, "oracle::Error({:?})", self.message)
+        match self.inner {
+            ErrorInner::ErrorMessage(message) => write!(f, "oracle::Error({:?})", message),
+        }
     }
 }
