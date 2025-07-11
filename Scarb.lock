@@ -3,4 +3,4 @@ version = 1
 
 [[package]]
 name = "oracle"
-version = "0.1.0-dev.0"
+version = "0.1.0-dev.1"
