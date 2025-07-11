@@ -24,15 +24,19 @@
 //! ## How are oracles executed?
 //!
 //! Oracle execution is managed by the Cairo runtime (e.g., the `scarb execute`). The runtime is
-//! responsible for interpreting the connection URL and facilitating the communication between the
-//! Cairo program and the external process.
+//! responsible for interpreting the connection string and facilitating the communication between
+//! the Cairo program and the external process.
 //!
 //! While the specific protocols are runtime-dependent, here are the common schemes:
 //! - `stdio:./path/to/binary`: The runtime executes a local binary and pipes data between your
-//! Cairo program and the process's standard input (stdin) and standard output (stdout).
+//!   Cairo program and the process's standard input (stdin) and standard output (stdout).
+//! - `stdio:python3 ./my_oracle.py`: The runtime executes a command with arguments, allowing for
+//!   more flexible process invocation.
+//! - `stdio:npx -y my_oracle`: The runtime can execute package managers or other command-line
+//!   tools.
 //! - `builtin:name`: The runtime may provide pre-compiled, optimized "builtin" oracles for common
-//! tasks. For example, `builtin:fs` may refer to a runtime-provided oracle for filesystem
-//! operations, which is more efficient and secure than invoking a generic script.
+//!   tasks. For example, `builtin:fs` may refer to a runtime-provided oracle for filesystem
+//!   operations, which is more efficient and secure than invoking a generic script.
 //!
 //! Always consult your specific runtime's documentation for a complete list of supported protocols
 //! and available built-in oracles.
@@ -60,10 +64,12 @@ use starknet::testing::cheatcode;
 /// which group all single oracle features together.
 ///
 /// To use an oracle, call `invoke` with:
-/// 1. `connection_url`: A string describing how to connect to the oracle. The execution runtime
+/// 1. `connection_string`: A string describing how to connect to the oracle. The execution runtime
 ///    handles oracle process management transparently under the hood. Consult your runtime
 ///    documentation for details what protocols and options are supported. For stdio-based oracles,
-///    this is typically a path to an executable (e.g., `"stdio:./my_oracle"`).
+///    this can be a path to an executable (e.g., `"stdio:./my_oracle"`), a command with arguments
+///    (e.g., `"stdio:python3 ./my_oracle.py"`), or package manager invocations (e.g., `"stdio:npx
+///    -y my_oracle"`).
 /// 2. `selector`: The name or identifier of the method to invoke on the oracle (as short string).
 ///    It acts as a function name or command within the oracle process.
 /// 3. `calldata`: The arguments to pass to the oracle method, as a serializable Cairo type. To pass
@@ -77,11 +83,11 @@ use starknet::testing::cheatcode;
 ///     pub type Result<T> = oracle::Result<T>;
 ///
 ///     pub fn pow(x: u64, n: u32) -> Result<u128> {
-///         oracle::invoke("stdio:./my_math_oracle.py", 'pow', (x, n))
+///         oracle::invoke("stdio:python3 ./my_math_oracle.py", 'pow', (x, n))
 ///     }
 ///
 ///     pub fn sqrt(x: u64) -> Result<u64> {
-///         oracle::invoke("stdio:./my_math_oracle.py", 'sqrt', x)
+///         oracle::invoke("stdio:python3 ./my_math_oracle.py", 'sqrt', x)
 ///     }
 /// }
 ///
@@ -98,10 +104,10 @@ use starknet::testing::cheatcode;
 /// }
 /// ```
 pub fn invoke<T, +Destruct<T>, +Drop<T>, +Serde<T>, R, +Serde<R>>(
-    connection_url: ByteArray, selector: felt252, calldata: T,
+    connection_string: ByteArray, selector: felt252, calldata: T,
 ) -> Result<R> {
     let mut input: Array<felt252> = array![];
-    connection_url.serialize(ref input);
+    connection_string.serialize(ref input);
     selector.serialize(ref input);
     calldata.serialize(ref input);
 
