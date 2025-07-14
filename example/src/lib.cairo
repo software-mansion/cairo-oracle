@@ -1,8 +1,6 @@
 mod my_oracle {
-    pub fn funny_hash(input: u64) -> oracle::Result<Span<u64>> {
-        oracle::invoke(
-            "stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'funny_hash', (input,),
-        )
+    pub fn funny_hash(x: u64) -> oracle::Result<Span<u64>> {
+        oracle::invoke("stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'funny_hash', (x,))
     }
 
     pub fn zip_mul(a: Span<u64>, b: Span<u64>) -> oracle::Result<Span<u64>> {
