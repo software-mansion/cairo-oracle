@@ -2,5 +2,12 @@
 version = 1
 
 [[package]]
+name = "example"
+version = "0.1.0"
+dependencies = [
+ "oracle",
+]
+
+[[package]]
 name = "oracle"
 version = "0.1.0-dev.1"
