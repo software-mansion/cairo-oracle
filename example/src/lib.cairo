@@ -6,9 +6,7 @@ mod my_oracle {
     }
 
     pub fn zip_mul(a: Span<u64>, b: Span<u64>) -> oracle::Result<Span<u64>> {
-        oracle::invoke(
-            "stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'zip_mul', (a, b),
-        )
+        oracle::invoke("stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'zip_mul', (a, b))
     }
 }
 
