@@ -1,15 +1,17 @@
 mod my_oracle {
     pub fn funny_hash(x: u64) -> oracle::Result<Span<u64>> {
-        oracle::invoke("stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'funny_hash', (x,))
+        oracle::invoke(
+            "stdio:cargo -q run --manifest-path my_oracle/Cargo.toml", 'funny_hash', (x,),
+        )
     }
 
     pub fn zip_mul(a: Span<u64>, b: Span<u64>) -> oracle::Result<Span<u64>> {
-        oracle::invoke("stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'zip_mul', (a, b))
+        oracle::invoke("stdio:cargo -q run --manifest-path my_oracle/Cargo.toml", 'zip_mul', (a, b))
     }
 
     pub fn state_action(action: u64) -> oracle::Result<Span<u64>> {
         oracle::invoke(
-            "stdio:cargo run --manifest-path my_oracle/Cargo.toml", 'state_action', (action,),
+            "stdio:cargo -q run --manifest-path my_oracle/Cargo.toml", 'state_action', (action,),
         )
     }
 }
