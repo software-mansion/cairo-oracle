@@ -14,7 +14,15 @@ pub(crate) fn box_handler<'a, T>(mut handler: impl Handler<T> + 'a) -> BoxedUnty
 //   This trick has been stolen from Axum, the clue is using tuples here:
 //   https://docs.rs/axum/latest/src/axum/handler/mod.rs.html#193
 
+/// Trait for mutable functions that can be used to handle oracle requests.
+///
+/// You shouldn't need to depend on this trait directly.
+/// It is automatically implemented to closures of the right types.
 pub trait Handler<T> {
+    /// Invoke the handler with the given parameters.
+    ///
+    /// This method is used internally to decode the parameters from the calldata,
+    /// invoke the handler, and encode the result back into a vector of felts.
     fn invoke_untyped(&mut self, calldata: Vec<Felt>) -> Result<Vec<Felt>>;
 }
 
