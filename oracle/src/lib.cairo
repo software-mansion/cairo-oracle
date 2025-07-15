@@ -130,31 +130,22 @@ pub type Result<T> = CoreResult<T, Error>;
 /// The internal structure of this type is opaque, but it can be displayed and (de)serialized.
 #[derive(Drop, Clone, PartialEq, Serde)]
 pub struct Error {
-    inner: ErrorInner,
-}
-
-#[derive(Drop, Clone, PartialEq, Serde)]
-enum ErrorInner {
-    ErrorMessage: ByteArray,
+    message: ByteArray,
 }
 
 fn deserialization_error() -> Error {
-    Error { inner: ErrorInner::ErrorMessage("failed to deserialize oracle response") }
+    Error { message: "failed to deserialize oracle response" }
 }
 
 impl DisplayError of fmt::Display<Error> {
     fn fmt(self: @Error, ref f: fmt::Formatter) -> CoreResult<(), fmt::Error> {
-        match self.inner {
-            ErrorInner::ErrorMessage(message) => fmt::Display::fmt(message, ref f),
-        }
+        fmt::Display::fmt(self.message, ref f)
     }
 }
 
 impl DebugError of fmt::Debug<Error> {
     fn fmt(self: @Error, ref f: fmt::Formatter) -> CoreResult<(), fmt::Error> {
-        match self.inner {
-            ErrorInner::ErrorMessage(message) => write!(f, "oracle::Error({:?})", message),
-        }
+        write!(f, "oracle::Error({:?})", self.message)
     }
 }
 
@@ -165,11 +156,9 @@ mod tests {
     #[test]
     fn test_result_error_serde() {
         let mut serialized: Array<felt252> = array![];
-        let original_error: Result<()> = Result::Err(
-            Error { inner: ErrorInner::ErrorMessage("abcdef") },
-        );
+        let original_error: Result<()> = Result::Err(Error { message: "abcdef" });
         original_error.serialize(ref serialized);
-        assert_eq!(serialized, array![1, 0, 0, 107075202213222, 6]);
+        assert_eq!(serialized, array![1, 0, 107075202213222, 6]);
 
         let mut span = serialized.span();
         let deserialized = Serde::<Result<()>>::deserialize(ref span).unwrap();
