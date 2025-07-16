@@ -1,2 +1,5 @@
 [workspace]
-members = ["oracle"]
+members = ["oracle", "example"]
+
+[cairo]
+enable-gas = false

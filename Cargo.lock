@@ -305,6 +305,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "my_oracle"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cairo-oracle-server",
+ "starknet-core",
+]
+
+[[package]]
 name = "num-bigint"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"

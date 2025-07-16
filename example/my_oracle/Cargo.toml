@@ -1,0 +1,10 @@
+[package]
+name = "my_oracle"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1"
+cairo-oracle-server = { path = "../../sdk/rust" }
+starknet-core = "0.15.0"
