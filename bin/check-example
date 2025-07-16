@@ -26,8 +26,11 @@ if [[ "$ACTUAL_OUTPUT" != "$EXPECTED_OUTPUT" ]]; then
     echo "Output does not match expected!"
     EXPECTED_FILE=".expected.txt"
     ACTUAL_FILE=".actual.txt"
-    echo "$EXPECTED_OUTPUT" > "$EXPECTED_FILE"
-    echo "$ACTUAL_OUTPUT" > "$ACTUAL_FILE"
-    git --no-pager diff --no-index --word-diff --color=always "$EXPECTED_FILE" "$ACTUAL_FILE" || rm "$EXPECTED_FILE" "$ACTUAL_FILE"
+    {
+      echo "$EXPECTED_OUTPUT" > "$EXPECTED_FILE"
+      echo "$ACTUAL_OUTPUT" > "$ACTUAL_FILE"
+      git --no-pager diff --no-index --word-diff --color=always "$EXPECTED_FILE" "$ACTUAL_FILE"
+    } || true
+    rm "$EXPECTED_FILE" "$ACTUAL_FILE"
     exit 1
 fi
