@@ -7,3 +7,4 @@ publish = false
 [dependencies]
 anyhow = "1"
 cairo-oracle-server = { path = "../../sdk/rust" }
+starknet-core = "0.15.0"

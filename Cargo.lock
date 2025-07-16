@@ -310,6 +310,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "cairo-oracle-server",
+ "starknet-core",
 ]
 
 [[package]]
