@@ -1,0 +1,17 @@
+# TODO: Set cairo-version to 2.13 or whatever ships oracle cheatcode.
+
+[package]
+name = "oracle"
+version = "0.1.0-dev.1"
+edition = "2024_07"
+cairo-version = "2.11.4"
+description = "Interfaces for calling external oracles"
+authors = ["Software Mansion <contact@swmansion.com>"]
+homepage = "https://docs.swmansion.com/scarb"
+license = "MIT"
+repository = "https://github.com/software-mansion/cairo-oracle"
+
+[dependencies]
+
+[dev-dependencies]
+cairo_test = "2.11.4"
