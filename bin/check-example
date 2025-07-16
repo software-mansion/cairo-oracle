@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/../example"
+
+EXPECTED_OUTPUT=$(cat <<'EOF'
+Funny hash of 10000 is: Result::Ok(100000000)
+Funny hash of 10001 is: Result::Err(oracle::Error(@"value must be even"))
+Funny hash of 10002 is: Result::Ok(100040004)
+Funny hash of 10003 is: Result::Err(oracle::Error(@"value must be even"))
+Funny hash of 10004 is: Result::Ok(100080016)
+Funny hash of 10005 is: Result::Err(oracle::Error(@"value must be even"))
+Funny hash of 10006 is: Result::Ok(100120036)
+Funny hash of 10007 is: Result::Err(oracle::Error(@"value must be even"))
+Funny hash of 10008 is: Result::Ok(100160064)
+Zip mul of [1, 2, 3, 4, 5, 6] and [6, 6, 7, 7, 8, 8] is: Result::Ok([NumberAnalysis { both_are_odd: false, mul: 6 }, NumberAnalysis { both_are_odd: false, mul: 12 }, NumberAnalysis { both_are_odd: true, mul: 21 }, NumberAnalysis { both_are_odd: false, mul: 28 }, NumberAnalysis { both_are_odd: false, mul: 40 }, NumberAnalysis { both_are_odd: false, mul: 48 }])
+State action with 42: Result::Ok(42)
+State action with 7: Result::Ok(49)
+State action with 12345: Result::Ok(12394)
+EOF
+)
+
+ACTUAL_OUTPUT=$(scarb -q execute --experimental-oracles)
+
+if [[ "$ACTUAL_OUTPUT" != "$EXPECTED_OUTPUT" ]]; then
+    echo "Output does not match expected!"
+    EXPECTED_FILE=".expected.txt"
+    ACTUAL_FILE=".actual.txt"
+    echo "$EXPECTED_OUTPUT" > "$EXPECTED_FILE"
+    echo "$ACTUAL_OUTPUT" > "$ACTUAL_FILE"
+    git --no-pager diff --no-index --word-diff "$EXPECTED_FILE" "$ACTUAL_FILE" || rm "$EXPECTED_FILE" "$ACTUAL_FILE"
+    exit 1
+fi
