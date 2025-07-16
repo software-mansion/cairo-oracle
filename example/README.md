@@ -30,3 +30,9 @@ State action with 7: Result::Ok([49])
 State action with 12345: Result::Ok([12394])
 Saving output to: target/execute/example/execution8
 ```
+
+Oracle's stderr is piped to Scarb debug logs. To see it, run:
+
+```bash
+scarb -vvv execute --experimental-oracles
+```
