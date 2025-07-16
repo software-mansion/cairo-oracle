@@ -37,7 +37,7 @@ impl Io {
         match self.stdin.read_line(&mut buf) {
             Ok(0) => None,
             Ok(_n) => {
-                eprintln!("recv: {buf}");
+                eprintln!("recv: {}", buf.trim_end_matches('\n'));
                 Some(
                     serde_json::from_str(buf.trim()).context("failed to parse message from oracle"),
                 )
