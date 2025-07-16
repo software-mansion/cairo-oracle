@@ -5,7 +5,7 @@ on:
   merge_group:
   pull_request:
 jobs:
-  check:
+  check-cairo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,3 +13,18 @@ jobs:
       - run: scarb fmt --check
       - run: scarb lint
       - run: scarb test
+
+  check-rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets --all-features --workspace --no-deps
+        env:
+          RUSTFLAGS: "-Dwarnings"
+      - run: cargo doc --all-features --workspace --no-deps
+        env:
+          RUSTDOCFLAGS: "-Dwarnings"
+      - run: cargo test --workspace
