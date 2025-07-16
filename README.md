@@ -1,10 +1,16 @@
-# Oracle
+# Cairo Oracles
 
-This library provides type-safe interfaces for interacting with external oracles in Cairo applications.
+_Oracles_ are external, untrusted processes that can be called from Cairo code to fetch data or perform computations not
+possible within the VM, like accessing web APIs or local files.
 
-```toml
-[dependencies]
-oracle = "0.1.0-dev.1"
-```
+> [!WARNING]
+> Oracle support in Scarb is **experimental**. It must be enabled with `scarb execute --experimental-oracles` or by
+> setting the `SCARB_EXPERIMENTAL_ORACLES=1` environment variable. Both the API and protocol are experimental and may
+> change in future releases.
 
-_Language support: requires Cairo 2.13+_
+This monorepo is home for various packages helping to use external oracles in Cairo programs.
+
+- [`oracle`](./oracle) - The main Cairo library which provides type-safe interfaces for interacting with external
+  oracles in Cairo applications.
+- [`sdk/rust`](./sdk/rust) - Rust crate which provides a framework for writing oracles in Rust.
+- [`example`](./example) - Example project showcasing oracle use.
