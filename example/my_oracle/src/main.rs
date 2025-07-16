@@ -6,7 +6,7 @@ use std::process::ExitCode;
 #[derive(Encode)]
 struct NumberAnalysis {
     both_are_odd: bool,
-    mul: u64,
+    mul: u128,
 }
 
 fn main() -> ExitCode {
@@ -22,10 +22,10 @@ fn main() -> ExitCode {
             |a: Vec<u64>, b: Vec<u64>| -> Result<Vec<NumberAnalysis>> {
                 ensure!(a.len() == b.len(), "vectors must have the same length");
                 Ok(a.into_iter()
-                    .zip(b.into_iter())
+                    .zip(b)
                     .map(|(x, y)| NumberAnalysis {
                         both_are_odd: x % 2 == 1 && y % 2 == 1,
-                        mul: (x as u64) * (y as u64),
+                        mul: (x as u128) * (y as u128),
                     })
                     .collect())
             },

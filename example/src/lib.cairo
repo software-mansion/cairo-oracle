@@ -2,7 +2,7 @@ mod my_oracle {
     #[derive(Debug, Drop, Serde)]
     struct NumberAnalysis {
         both_are_odd: bool,
-        mul: u64,
+        mul: u128,
     }
 
     pub fn funny_hash(x: u64) -> oracle::Result<u64> {
