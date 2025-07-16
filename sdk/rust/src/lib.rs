@@ -58,6 +58,9 @@
 //!     }
 //! }
 //! ```
+
+#![warn(missing_docs)]
+
 pub use self::builder::Oracle;
 pub use self::handler::Handler;
 pub use starknet_core;
