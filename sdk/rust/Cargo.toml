@@ -1,7 +1,7 @@
 [package]
 name = "cairo-oracle-server"
 version = "0.1.0"
-rust-version = "1.88.0"
+rust-version = "1.85.1"
 edition = "2024"
 description = "SDK for writing Cairo oracles in Rust"
 authors = ["Software Mansion <contact@swmansion.com>"]
