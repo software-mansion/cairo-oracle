@@ -4,10 +4,9 @@
 //!
 //! ## Feature status
 //!
-//! As of the date when this package version has been released, oracle support in Scarb is
-//! **experimental**. It must be enabled with `scarb execute --experimental-oracles` or by setting
-//! the `SCARB_EXPERIMENTAL_ORACLES=1` environment variable. Both the API and protocol are
-//! experimental and may change in future releases.
+//! This is an experimental feature. The API and behaviour may change in future versions of Scarb.
+//! Oracles are currently available in **`scarb execute`** with the `--experimental-oracles` flag
+//! Support is also planned in future versions of **`cairo-test`** and **`snforge`**.
 //!
 //! ## What is an oracle?
 //!
