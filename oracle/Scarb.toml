@@ -10,6 +10,7 @@ authors = ["Software Mansion <contact@swmansion.com>"]
 homepage = "https://docs.swmansion.com/scarb"
 license = "MIT"
 repository = "https://github.com/software-mansion/cairo-oracle"
+documentation = "https://docs.swmansion.com/cairo-oracle"
 
 [dependencies]
 
