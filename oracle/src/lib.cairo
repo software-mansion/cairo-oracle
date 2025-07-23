@@ -5,7 +5,7 @@
 //! ## Feature status
 //!
 //! This is an experimental feature. The API and behaviour may change in future versions of Scarb.
-//! Oracles are currently available in **`scarb execute`** with the `--experimental-oracles` flag
+//! Oracles are currently available in **`scarb execute`** with the `--experimental-oracles` flag.
 //! Support is also planned in future versions of **`cairo-test`** and **`snforge`**.
 //!
 //! ## What is an oracle?
