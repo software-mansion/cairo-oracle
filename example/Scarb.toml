@@ -7,8 +7,8 @@ publish = false
 [executable]
 
 [dependencies]
-cairo_execute = "2.11.4"
+cairo_execute = "2"
 oracle = { path = ".." }
 
 [dev-dependencies]
-cairo_test = "2.11.4"
+cairo_test = "2"
