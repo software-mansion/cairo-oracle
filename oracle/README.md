@@ -4,7 +4,7 @@ This library provides type-safe interfaces for interacting with external oracles
 
 ```toml
 [dependencies]
-oracle = "0.1.0-dev.3"
+oracle = "0.1.0-dev.4"
 ```
 
 _Language support: requires Cairo 2.12+_
