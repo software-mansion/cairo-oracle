@@ -11,8 +11,8 @@
 //! ## What is an oracle?
 //!
 //! An oracle is an external process (like a script, binary, or web service) that exposes custom
-//! logic or data to a Cairo program. You use it to perform tasks the Cairo VM cannot, such as
-//! accessing real-world data or executing complex, non-provable computations.
+//! logic or data to a Cairo program at runtime. You use it to perform tasks the Cairo VM cannot,
+//! such as accessing real-world data or executing complex, non-provable computations.
 //!
 //! **IMPORTANT:** The execution of an oracle occurs **outside** of the Cairo VM. Consequently, its
 //! operations are **not included** in the execution trace and are **not verified by the proof**.
