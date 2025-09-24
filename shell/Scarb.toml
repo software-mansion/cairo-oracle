@@ -2,7 +2,7 @@
 name = "shell"
 version = "0.1.0-dev.0"
 edition = "2024_07"
-cairo-version = "2.12.3+dev-2025-09-23"
+cairo-version = "2.12.3+nightly-2025-09-23"
 description = "An oracle that executes shell commands on the local machine"
 authors = ["Software Mansion <contact@swmansion.com>"]
 license = "MIT"
