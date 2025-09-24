@@ -136,6 +136,16 @@ fn deserialization_error() -> Error {
     Error { message: "failed to deserialize oracle response" }
 }
 
+#[generate_trait]
+pub impl ErrorImpl of ErrorTrait {
+    /// Creates a new `oracle::Error` with a custom message.
+    ///
+    /// This is useful for oracle-wrapping libraries that need extra error checking in Cairo code.
+    fn custom(message: ByteArray) -> Error {
+        Error { message }
+    }
+}
+
 impl DisplayError of fmt::Display<Error> {
     fn fmt(self: @Error, ref f: fmt::Formatter) -> CoreResult<(), fmt::Error> {
         fmt::Display::fmt(self.message, ref f)
