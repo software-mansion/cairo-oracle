@@ -25,8 +25,7 @@ format data, or fetch information that would be cumbersome to embed in Cairo dir
 ### Inspect exit code and standard output.
 
 ```cairo
-use shell;
-
+#[executable]
 fn main() {
 	let (code, stdout) = shell::exec("echo hello").unwrap();
 	assert_eq!(code, 0);
@@ -37,8 +36,7 @@ fn main() {
 ### Fail on non‑zero exit
 
 ```cairo
-use shell;
-
+#[executable]
 fn main() {
 	let os = shell::output("uname -s").unwrap();
 	assert!(os.len() > 0);
