@@ -53,6 +53,8 @@ dependencies = [
 [[package]]
 name = "cairo-oracle-server"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2f3306f5608d02c89190d1460ca193da92ebd98212d490c2fe10b6c09d0bafbd"
 dependencies = [
  "anyhow",
  "serde",

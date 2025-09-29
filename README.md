@@ -12,5 +12,4 @@ This monorepo is home for various packages helping to use external oracles in Ca
 
 - [`oracle`](./oracle) - The main Cairo library which provides type-safe interfaces for interacting with external
   oracles in Cairo applications.
-- [`sdk/rust`](./sdk/rust) - Rust crate which provides a framework for writing oracles in Rust.
 - [`example`](./example) - Example project showcasing oracle use.
