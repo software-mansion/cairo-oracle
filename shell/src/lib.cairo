@@ -30,7 +30,7 @@ pub type Result<T> = oracle::Result<T>;
 /// assert_eq!(out, "Cairo\n");
 /// ```
 pub fn exec(command: ByteArray) -> Result<(ExitCode, Stdout)> {
-    oracle::invoke("shell:", 'exec', command)
+    oracle::invoke("shell:", "exec", command)
 }
 
 /// Runs a shell command and returns its `stdout` on success.

@@ -5,8 +5,7 @@
 //! ## Feature status
 //!
 //! This is an experimental feature. The API and behaviour may change in future versions of Scarb.
-//! Oracles are currently available in **`scarb execute`** with the `--experimental-oracles` flag.
-//! Support is also planned in future versions of **`cairo-test`** and **`snforge`**.
+//! Oracles are currently available with the `--experimental-oracles` flag passed to the executor.
 //!
 //! ## What is an oracle?
 //!
@@ -27,15 +26,10 @@
 //! the Cairo program and the external process.
 //!
 //! While the specific protocols are runtime-dependent, here are the common schemes:
-//! - `stdio:./path/to/binary`: The runtime executes a local binary and pipes data between your
-//!   Cairo program and the process's standard input (stdin) and standard output (stdout).
-//! - `stdio:python3 ./my_oracle.py`: The runtime executes a command with arguments, allowing for
-//!   more flexible process invocation.
-//! - `stdio:npx -y my_oracle`: The runtime can execute package managers or other command-line
-//!   tools.
-//! - `builtin:name`: The runtime may provide pre-compiled, optimized "builtin" oracles for common
-//!   tasks. For example, `builtin:fs` may refer to a runtime-provided oracle for filesystem
-//!   operations, which is more efficient and secure than invoking a generic script.
+//! - [`shell`](https://docs.swmansion.com/scarb/docs/extensions/oracles/shell.html) — one‑shot
+//!   shell command execution returning stdout.
+//! - [`wasm`](https://docs.swmansion.com/scarb/docs/extensions/oracles/wasm.html) — run
+//!   WebAssembly components.
 //!
 //! Always consult your specific runtime's documentation for a complete list of supported protocols
 //! and available built-in oracles.
@@ -65,11 +59,10 @@ use starknet::testing::cheatcode;
 /// To use an oracle, call `invoke` with:
 /// 1. `connection_string`: A string describing how to connect to the oracle. The execution runtime
 ///    handles oracle process management transparently under the hood. Consult your runtime
-///    documentation for details what protocols and options are supported. For stdio-based oracles,
-///    this can be a path to an executable (e.g., `"stdio:./my_oracle"`), a command with arguments
-///    (e.g., `"stdio:python3 ./my_oracle.py"`), or package manager invocations (e.g., `"stdio:npx
-///    -y my_oracle"`).
-/// 2. `selector`: The name or identifier of the method to invoke on the oracle (as short string).
+///    documentation for details what protocols and options are supported. For wasm-based oracles,
+///    this is a path to a WASM binary that must be an
+///    [asset](https://docs.swmansion.com/scarb/docs/reference/manifest.html#assets).
+/// 2. `selector`: The name or identifier of the method to invoke on the oracle (as a `ByteArray`).
 ///    It acts as a function name or command within the oracle process.
 /// 3. `calldata`: The arguments to pass to the oracle method, as a serializable Cairo type. To pass
 ///    multiple arguments, use a tuple or struct that implements `Serde`.
@@ -82,28 +75,16 @@ use starknet::testing::cheatcode;
 ///     pub type Result<T> = oracle::Result<T>;
 ///
 ///     pub fn pow(x: u64, n: u32) -> Result<u128> {
-///         oracle::invoke("stdio:python3 ./my_math_oracle.py", 'pow', (x, n))
+///         oracle::invoke("wasm:math_oracle.wasm", "pow", (x, n))
 ///     }
 ///
 ///     pub fn sqrt(x: u64) -> Result<u64> {
-///         oracle::invoke("stdio:python3 ./my_math_oracle.py", 'sqrt', x)
-///     }
-/// }
-///
-/// mod fs_oracle {
-///     pub type Result<T> = oracle::Result<T>;
-///
-///     pub fn fs_read(path: ByteArray) -> Result<ByteArray> {
-///         oracle::invoke("builtin:fs", 'read', path)
-///     }
-///
-///     pub fn fs_exists(path: ByteArray) -> Result<bool> {
-///         oracle::invoke("builtin:fs", 'exists', path)
+///         oracle::invoke("wasm:math_oracle.wasm", "sqrt", x)
 ///     }
 /// }
 /// ```
 pub fn invoke<T, +Destruct<T>, +Drop<T>, +Serde<T>, R, +Serde<R>>(
-    connection_string: ByteArray, selector: felt252, calldata: T,
+    connection_string: ByteArray, selector: ByteArray, calldata: T,
 ) -> Result<R> {
     let mut input: Array<felt252> = array![];
     connection_string.serialize(ref input);
