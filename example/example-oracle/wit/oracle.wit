@@ -1,0 +1,7 @@
+package example:oracle;
+
+world oracle {
+    export funny-hash: func(value: u64) -> result<u64>;
+    export zip-mul: func(a: list<u64>, b: list<u64>) -> list<u64>;
+    export state-action: func(action: u64) -> u64;
+}

@@ -1,0 +1,14 @@
+[package]
+name = "example-oracle"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+# This will make the Rust compiler produce a component instead of WASM CLI.
+crate-type = ["cdylib"]
+
+[dependencies]
+# This crate emits special symbols that make the compiler wrap WASM
+# code into WASI 0.2 component model-specific shell.
+wit-bindgen = "*"
