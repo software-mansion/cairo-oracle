@@ -20,7 +20,13 @@ State action with 12345: Result::Ok(12394)
 EOF
 )
 
-ACTUAL_OUTPUT=$(scarb -q execute --experimental-oracles)
+TMP_OUTPUT="$(mktemp)"
+trap 'rm -f "$TMP_OUTPUT"' EXIT
+scarb execute --experimental-oracles | tee "$TMP_OUTPUT"
+# Extract only the lines between the markers "Executing example" and "Saving output to...",
+# excluding those marker lines. This removes extra wrapper output before/after the example.
+# Use awk to print lines strictly between the markers.
+ACTUAL_OUTPUT=$(awk '/Executing example/{found=1;next} /Saving output to:/{exit} found' "$TMP_OUTPUT")
 
 if [[ "$ACTUAL_OUTPUT" != "$EXPECTED_OUTPUT" ]]; then
     echo "Output does not match expected!"
