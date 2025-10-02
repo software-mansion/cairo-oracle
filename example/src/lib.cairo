@@ -1,24 +1,14 @@
 mod my_oracle {
-    #[derive(Debug, Drop, Serde)]
-    struct NumberAnalysis {
-        both_are_odd: bool,
-        mul: u128,
-    }
-
     pub fn funny_hash(x: u64) -> oracle::Result<u64> {
-        oracle::invoke(
-            "stdio:cargo -q run --manifest-path my_oracle/Cargo.toml", 'funny_hash', (x,),
-        )
+        oracle::invoke("wasm:example_oracle.wasm", "funny-hash", (x,))
     }
 
-    pub fn zip_mul(a: Span<u64>, b: Span<u64>) -> oracle::Result<Span<NumberAnalysis>> {
-        oracle::invoke("stdio:cargo -q run --manifest-path my_oracle/Cargo.toml", 'zip_mul', (a, b))
+    pub fn zip_mul(a: Span<u64>, b: Span<u64>) -> oracle::Result<Span<u64>> {
+        oracle::invoke("wasm:example_oracle.wasm", "zip-mul", (a, b))
     }
 
     pub fn state_action(action: u64) -> oracle::Result<u64> {
-        oracle::invoke(
-            "stdio:cargo -q run --manifest-path my_oracle/Cargo.toml", 'state_action', (action,),
-        )
+        oracle::invoke("wasm:example_oracle.wasm", "state-action", (action,))
     }
 }
 
