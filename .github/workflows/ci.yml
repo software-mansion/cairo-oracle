@@ -31,7 +31,7 @@ jobs:
         with:
           workspaces: "${{ env.CARGO_MANIFEST_DIR }}"
       - run: cargo fmt --manifest-path example/example-oracle/Cargo.toml --check
-      - run: cargo clippy --manifest-path example/example-oracle/Cargo.toml --all-targets --all-features--no-deps
+      - run: cargo clippy --manifest-path example/example-oracle/Cargo.toml --all-targets --all-features --no-deps
         env:
           RUSTFLAGS: "-Dwarnings"
       - run: cargo doc --manifest-path example/example-oracle/Cargo.toml --all-features--no-deps
