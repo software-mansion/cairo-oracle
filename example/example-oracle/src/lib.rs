@@ -5,11 +5,11 @@ wit_bindgen::generate!();
 struct Oracle;
 
 impl Guest for Oracle {
-    fn funny_hash(value: u64) -> Result<u64, ()> {
+    fn funny_hash(value: u64) -> Result<u64, String> {
         if value % 2 == 0 {
             Ok(value * value)
         } else {
-            Err(())
+            Err("value must be even".into())
         }
     }
 
@@ -20,7 +20,7 @@ impl Guest for Oracle {
 
     fn state_action(action: u64) -> u64 {
         static ACCUMULATOR: AtomicU64 = AtomicU64::new(0);
-        ACCUMULATOR.fetch_add(action, Ordering::Relaxed)
+        ACCUMULATOR.fetch_add(action, Ordering::Relaxed) + action
     }
 }
 

@@ -1,5 +1,5 @@
 mod my_oracle {
-    pub fn funny_hash(x: u64) -> Result<u64, ()> {
+    pub fn funny_hash(x: u64) -> Result<u64, ByteArray> {
         oracle::invoke("wasm:example_oracle.wasm", "funny-hash", x).unwrap()
     }
 
