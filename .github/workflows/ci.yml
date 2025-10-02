@@ -8,8 +8,11 @@ jobs:
   check-cairo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: software-mansion/setup-scarb@v1
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
       - run: scarb fmt --check
       - run: scarb lint
       - run: scarb test
@@ -19,7 +22,7 @@ jobs:
     env:
       CARGO_MANIFEST_DIR: example/example-oracle
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
@@ -38,8 +41,8 @@ jobs:
   check-example:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v4
+      - uses: actions/checkout@v5
+      - uses: software-mansion/setup-scarb@v1
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-wasip2
