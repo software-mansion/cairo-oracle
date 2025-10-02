@@ -17,7 +17,7 @@ jobs:
   check-rust:
     runs-on: ubuntu-latest
     env:
-      CARGO_MANIFEST_PATH: example/example-oracle/Cargo.toml
+      CARGO_MANIFEST_DIR: example/example-oracle
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -25,7 +25,7 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
         with:
-          workspaces: example/example-oracle
+          workspaces: "${{ env.CARGO_MANIFEST_DIR }}"
       - run: cargo fmt --check
       - run: cargo clippy --all-targets --all-features--no-deps
         env:
