@@ -6,7 +6,7 @@ struct Oracle;
 
 impl Guest for Oracle {
     fn funny_hash(value: u64) -> Result<u64, String> {
-        if value % 2 == 0 {
+        if value.is_multiple_of(2) {
             Ok(value * value)
         } else {
             Err("value must be even".into())
