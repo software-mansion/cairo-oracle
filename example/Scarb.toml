@@ -13,3 +13,6 @@ oracle = { path = ".." }
 
 [dev-dependencies]
 cairo_test = "2"
+
+[scripts]
+build = "cargo build --manifest-path example-oracle/Cargo.toml --release --target wasm32-wasip2"
