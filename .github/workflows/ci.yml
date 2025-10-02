@@ -13,14 +13,15 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-wasip2
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: example/example-oracle
       - run: scarb fmt --check
       - run: scarb lint
       - run: scarb test
 
   check-rust:
     runs-on: ubuntu-latest
-    env:
-      CARGO_MANIFEST_DIR: example/example-oracle
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
@@ -29,14 +30,14 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: "${{ env.CARGO_MANIFEST_DIR }}"
-      - run: cargo fmt --check
-      - run: cargo clippy --all-targets --all-features--no-deps
+      - run: cargo fmt --manifest-path example/example-oracle/Cargo.toml --check
+      - run: cargo clippy --manifest-path example/example-oracle/Cargo.toml --all-targets --all-features--no-deps
         env:
           RUSTFLAGS: "-Dwarnings"
-      - run: cargo doc --all-features--no-deps
+      - run: cargo doc --manifest-path example/example-oracle/Cargo.toml --all-features--no-deps
         env:
           RUSTDOCFLAGS: "-Dwarnings"
-      - run: cargo test
+      - run: cargo test --manifest-path example/example-oracle/Cargo.toml
 
   check-example:
     runs-on: ubuntu-latest
@@ -47,4 +48,6 @@ jobs:
         with:
           targets: wasm32-wasip2
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: example/example-oracle
       - run: bin/check-example
