@@ -1,6 +1,6 @@
 mod my_oracle {
     pub fn funny_hash(x: u64) -> oracle::Result<u64> {
-        oracle::invoke("wasm:example_oracle.wasm", "funny-hash", (x,))
+        oracle::invoke("wasm:example_oracle.wasm", "funny-hash", x)
     }
 
     pub fn zip_mul(a: Span<u64>, b: Span<u64>) -> oracle::Result<Span<u64>> {
@@ -8,7 +8,7 @@ mod my_oracle {
     }
 
     pub fn state_action(action: u64) -> oracle::Result<u64> {
-        oracle::invoke("wasm:example_oracle.wasm", "state-action", (action,))
+        oracle::invoke("wasm:example_oracle.wasm", "state-action", action)
     }
 }
 
