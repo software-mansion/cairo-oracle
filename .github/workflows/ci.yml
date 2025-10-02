@@ -8,8 +8,14 @@ jobs:
   check-cairo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: software-mansion/setup-scarb@v1
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: example/example-oracle
       - run: scarb fmt --check
       - run: scarb lint
       - run: scarb test
@@ -17,25 +23,27 @@ jobs:
   check-rust:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
-      - run: cargo fmt --check
-      - run: cargo clippy --all-targets --all-features --workspace --no-deps
+        with:
+          workspaces: "${{ env.CARGO_MANIFEST_DIR }}"
+      - run: cargo fmt --manifest-path example/example-oracle/Cargo.toml --check
+      - run: cargo clippy --manifest-path example/example-oracle/Cargo.toml --all-targets --all-features --no-deps
         env:
           RUSTFLAGS: "-Dwarnings"
-      - run: cargo doc --all-features --workspace --no-deps
-        env:
-          RUSTDOCFLAGS: "-Dwarnings"
-      - run: cargo test --workspace
 
   check-example:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v4
+      - uses: actions/checkout@v5
+      - uses: software-mansion/setup-scarb@v1
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: example/example-oracle
       - run: bin/check-example

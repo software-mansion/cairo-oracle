@@ -1,0 +1,3 @@
+{
+  "rust-analyzer.linkedProjects": ["example/example-oracle/Cargo.toml"]
+}
