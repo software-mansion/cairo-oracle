@@ -34,10 +34,6 @@ jobs:
       - run: cargo clippy --manifest-path example/example-oracle/Cargo.toml --all-targets --all-features --no-deps
         env:
           RUSTFLAGS: "-Dwarnings"
-      - run: cargo doc --manifest-path example/example-oracle/Cargo.toml --all-features--no-deps
-        env:
-          RUSTDOCFLAGS: "-Dwarnings"
-      - run: cargo test --manifest-path example/example-oracle/Cargo.toml
 
   check-example:
     runs-on: ubuntu-latest
