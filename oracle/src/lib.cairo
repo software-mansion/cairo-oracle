@@ -28,6 +28,8 @@
 //! While the specific protocols are runtime-dependent, here are the common schemes:
 //! - [`shell`](https://docs.swmansion.com/scarb/docs/extensions/oracles/shell.html) — one‑shot
 //!   shell command execution returning stdout.
+//!   - check out the [`shell` package](https://scarbs.xyz/packages/shell) for ready to use Cairo
+//!     library that wraps this protocol.
 //! - [`wasm`](https://docs.swmansion.com/scarb/docs/extensions/oracles/wasm.html) — run
 //!   WebAssembly components.
 //!

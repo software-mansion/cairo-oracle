@@ -12,4 +12,5 @@ This monorepo is home for various packages helping to use external oracles in Ca
 
 - [`oracle`](./oracle) - The main Cairo library which provides type-safe interfaces for interacting with external
   oracles in Cairo applications.
+- [`shell`](./shell) - Wraps the `shell` oracle protocol in an idiomatic Cairo API.
 - [`example`](./example) - Example project showcasing oracle use.
