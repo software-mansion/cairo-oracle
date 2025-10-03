@@ -10,11 +10,11 @@ dependencies = [
 
 [[package]]
 name = "oracle"
-version = "0.1.0-dev.4"
+version = "1.0.0"
 
 [[package]]
 name = "shell"
-version = "0.1.0-dev.0"
+version = "1.0.0"
 dependencies = [
  "oracle",
 ]
