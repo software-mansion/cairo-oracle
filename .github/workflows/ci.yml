@@ -18,7 +18,7 @@ jobs:
           workspaces: example/example-oracle
       - run: scarb fmt --check
       - run: scarb lint
-      - run: scarb test
+      - run: scarb test --experimental-oracles
 
   check-rust:
     runs-on: ubuntu-latest
