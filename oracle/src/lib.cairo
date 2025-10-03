@@ -2,11 +2,6 @@
 //! Oracles are external, untrusted processes that can be called from Cairo code to fetch data or
 //! perform computations not possible within the VM, like accessing web APIs or local files.
 //!
-//! ## Feature status
-//!
-//! This is an experimental feature. The API and behaviour may change in future versions of Scarb.
-//! Oracles are currently available with the `--experimental-oracles` flag passed to the executor.
-//!
 //! ## What is an oracle?
 //!
 //! An oracle is an external process (like a script, binary, or web service) that exposes custom

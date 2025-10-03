@@ -5,7 +5,7 @@ This library provides an interface for executing shell commands from Cairo scrip
 
 ```toml
 [dependencies]
-shell = "0.1.0-dev.0"
+shell = "1.0.0"
 ```
 
 _Language support: requires Cairo 2.13+_
