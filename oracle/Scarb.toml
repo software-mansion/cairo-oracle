@@ -7,7 +7,7 @@ description = "Interfaces for calling external oracles"
 authors = ["Software Mansion <contact@swmansion.com>"]
 license = "MIT"
 repository = "https://github.com/software-mansion/cairo-oracle"
-documentation = "https://docs.swmansion.com/cairo-oracle"
+documentation = "https://docs.swmansion.com/cairo-oracle/oracle/"
 
 [dependencies]
 
