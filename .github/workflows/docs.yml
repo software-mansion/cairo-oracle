@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'oracle/*'
+      - 'shell/*'
   workflow_dispatch:
 
 permissions:
@@ -21,11 +22,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: software-mansion/setup-scarb@v1
-      - run: scarb doc -p oracle --build
+      - name: Build oracle docs
+        run: scarb doc -p oracle --build
+      - name: Build shell docs
+        run: scarb doc -p shell --build
+      - name: Prepare docs directory structure
+        run: |
+          mkdir -p _site/oracle _site/shell
+          cp -r target/doc/oracle/book/* _site/oracle/
+          cp -r target/doc/shell/book/* _site/shell/
+          # Create a redirect at the root for backward compatibility
+          cat > _site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta http-equiv="refresh" content="0; url=/cairo-oracle/oracle/" />
+            <title>Redirecting to Oracle docs</title>
+          </head>
+          <body>
+            <p>Redirecting to <a href="/cairo-oracle/oracle/">Oracle documentation</a>...</p>
+          </body>
+          </html>
+          EOF
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: target/doc/oracle/book
+          path: _site
 
   deploy:
     environment:

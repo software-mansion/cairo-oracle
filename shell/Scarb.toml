@@ -7,7 +7,7 @@ description = "An oracle that executes shell commands on the local machine"
 authors = ["Software Mansion <contact@swmansion.com>"]
 license = "MIT"
 repository = "https://github.com/software-mansion/cairo-oracle"
-documentation = "https://docs.swmansion.com/cairo-oracle"
+documentation = "https://docs.swmansion.com/cairo-oracle/shell/"
 
 [dependencies]
 oracle = { version = "0.1.0-dev.4", path = "../oracle" }
