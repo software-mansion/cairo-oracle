@@ -1,5 +1,5 @@
 [workspace]
-members = ["oracle", "example"]
+members = ["oracle", "shell", "example"]
 
 [cairo]
 enable-gas = false
